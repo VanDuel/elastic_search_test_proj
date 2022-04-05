@@ -8,7 +8,7 @@ class BooksController < ApplicationController
   end
 
   def show
-    render json: @book = @library.books.find(params [:id])
+    render json: @book = @library.books.find(params[:id])
   end
 
   def new
