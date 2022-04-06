@@ -1,5 +1,5 @@
 class ChaptersController < ApplicationController
-  before_action :set_book
+  before_action :set_book, except: :search
   before_action :set_chapter, only: %i[show destroy]
 
   def index
