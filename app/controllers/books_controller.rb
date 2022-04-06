@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :set_library
+  before_action :set_library, except: :search
   before_action :set_book, only: %i[show destroy]
 
   def index
