@@ -1,4 +1,6 @@
 class Book < ApplicationRecord
-  belongs_to :library
-  has_many :chapters
+  include Searchable
+
+  belongs_to  :library
+  has_many    :chapters
 end

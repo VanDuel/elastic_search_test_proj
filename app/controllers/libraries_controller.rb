@@ -1,10 +1,8 @@
 class LibrariesController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :set_library, only: %i[ show destroy ]
+  before_action :set_library, only: %i[show destroy]
 
   def index
-    @libraries = Library.all
-    render json: @libraries
+    render json: Library.all
   end
 
   def show
@@ -15,13 +13,18 @@ class LibrariesController < ApplicationController
     render json: @library = Library.new
   end
 
-  def create #post
+  # post
+  def create
     @library = Library.create(name: params['name'])
   end
 
   def destroy
     @library.delete
     # render "deleted"
+  end
+
+  def search
+    render json: Library.search(params[:keyword])
   end
 
   private
@@ -32,6 +35,5 @@ class LibrariesController < ApplicationController
 
   def library_params
     params.fetch(:library, {}).permit(:name)
-    #params.require(:library).permit(:name)
   end
 end
