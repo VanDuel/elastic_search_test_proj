@@ -15,7 +15,7 @@ class LibrariesController < ApplicationController
 
   # post
   def create
-    @library = Library.create(name: params['name'])
+    render json: @library = Library.create(name: params['name'])
   end
 
   def destroy
