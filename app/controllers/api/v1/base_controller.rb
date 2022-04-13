@@ -3,8 +3,6 @@ class Api::V1::BaseController < ApplicationController
   include Response
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-  rescue_from Contract::InvalidError, with: :render_contract_invalid
-  rescue_from ButlerClient::AuthenticateError, with: :unauthenticated_error
 
   rescue_from ActiveRecord::RecordInvalid,
               ActiveRecord::RecordNotDestroyed,
@@ -22,9 +20,10 @@ class Api::V1::BaseController < ApplicationController
     render_with_error(exception.record)
   end
 
+  #TODO ErrorsResource добавить
   def render_with_error(object, status = :unprocessable_entity)
     serialized_response(
-      serializers: { errors: ::Api::V2::ErrorsResource.new(object) },
+      serializers: { errors: ::Api::V1::ErrorsResource.new(object) },
       status: status
     )
   end
@@ -39,10 +38,6 @@ class Api::V1::BaseController < ApplicationController
 
   def render_conflict
     json_response({ errors: { non_field_errors: ['conflict'] } }, :conflict)
-  end
-
-  def render_contract_invalid(exception)
-    json_response({ errors: exception.errors }, :bad_request)
   end
 
   def with_replica(&block)

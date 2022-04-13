@@ -4,6 +4,8 @@ module Api
       class BookResource < Api::V1::BaseResource
         # default_within schemas: :schemas_conditions
 
+        #root_key :data, :data
+
         attributes :id,
                    :name,
                    :price,

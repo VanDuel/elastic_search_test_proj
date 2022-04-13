@@ -9,12 +9,17 @@ module Response
 
   def serialized_response(serializers: { meta: nil, data: nil, errors: nil }, status: :ok)
     hash = {}
+
     serializers.each do |key, value|
       next if value.nil?
 
-      hash[key] = value.class < ::Api::V1::BaseResource ? value.to_hash : value
+      if key == :data && value.to_hash.is_a?(Array)
+        hash[:items] = value.class < ::Api::V1::BaseResource ? value.to_hash : value
+      else
+        hash[key] = value.class < ::Api::V1::BaseResource ? value.to_hash : value
+      end
     end
-
+    hash = { data: hash } if hash[:data].nil?
     json_response(hash.presence, status)
   end
 end

@@ -3,17 +3,17 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show destroy]
 
   def index
-    serialized_response(
-      serializers: {
-        data: ::Api::V1::Books::BooksResource.new(Book.all)
-      }
-    )
-    #render json: Book.all
+    # serialized_response(
+    #   serializers: {
+    #     data: ::Api::V1::Books::BookResource.new(Book.all)
+    #   }
+    # )
+    render json: Book.all
   end
 
   def show
-    serialized_response(serializers: { data: ::Api::V1::Books::BookResource.new(@book) })
-    #render json: @book
+    # serialized_response(serializers: { data: ::Api::V1::Books::BookResource.new(@book) })
+    render json: @book
   end
 
   def new

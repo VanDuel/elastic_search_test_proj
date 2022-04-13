@@ -1,9 +1,10 @@
 version: '3'
 services:
   elasticsearch_demo:
-    build: .
+    build:
+      context: ../elasticsearch_demo
     command: rails s -b 0.0.0.0 -p 3000
     volumes:
-      - .:/usr/src/elasticsearch_demo
+      - ../elasticsearch_demo:/app
     ports:
       - "3000:3000"

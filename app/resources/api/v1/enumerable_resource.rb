@@ -1,30 +1,26 @@
 module Api
   module V1
     class EnumerableResource < Api::V1::BaseResource
-      class_attribute :base_resource
+      class_attribute :specific_resource
 
-      def self.collection_resource(resource)
-        self.base_resource = resource
-      end
+      def initialize(object, specific_resource, **args)
+        self.specific_resource = specific_resource
 
-      attribute(:items) do |object|
-        base_resource.new(object, params: @params, within: @within).to_hash
-      end
-
-      def initialize(object, **args)
-        if base_resource.blank?
-          resource_name = self.class.name.delete_suffix('Resource')
-          resource_name = "#{resource_name.singularize}Resource"
-          self.base_resource = resource_name.safe_constantize
+        if @params.nil?
+          @params = {single_iteration: false}
+        else
+          @params[:single_iteration] = false
         end
-
-        super
       end
 
       def serializable_hash
         converter.call(@object)
       end
       alias to_hash serializable_hash
+
+      attribute(:items) do |object|
+        specific_resource.new(object, params: @params, within: @within).to_hash
+      end
     end
   end
 end
