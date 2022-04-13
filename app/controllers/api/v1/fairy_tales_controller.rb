@@ -1,4 +1,4 @@
-class BooksController < ApplicationController
+class Api::V1::FairyTalesController < Api::V1::BaseController
   before_action :set_library, except: :search
   before_action :set_book, only: %i[show destroy]
 

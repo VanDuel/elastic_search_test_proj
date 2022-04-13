@@ -7,7 +7,13 @@ Rails.application.routes.draw do
       resources :chapters
     end
   end
-
+  scope Rails.application.config.relative_url_root do
+    namespace :api do
+      namespace :v1 do
+        resources :fairy_tales
+      end
+    end
+  end
   get '/librarysearch', to: 'libraries#search'
   get '/booksearch',    to: 'books#search'
   get '/chaptersearch', to: 'chapters#search'
