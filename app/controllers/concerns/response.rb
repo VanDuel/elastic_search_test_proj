@@ -13,13 +13,16 @@ module Response
     serializers.each do |key, value|
       next if value.nil?
 
-      if key == :data && value.to_hash.is_a?(Array)
-        hash[:items] = value.class < ::Api::V1::BaseResource ? value.to_hash : value
+      temp = value.class < ::Api::V1::BaseResource ? value.to_hash : value
+      if key == :data && temp.is_a?(Array)
+        hash[:items] = temp
       else
-        hash[key] = value.class < ::Api::V1::BaseResource ? value.to_hash : value
+        hash[key] = temp
       end
     end
+    
     hash = { data: hash } if hash[:data].nil?
+
     json_response(hash.presence, status)
   end
 end
